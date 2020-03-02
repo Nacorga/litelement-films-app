@@ -2,12 +2,6 @@ import { LitElement, html, css } from 'lit-element';
 
 export class searchComp extends LitElement {
 
-  static get properties() {
-    return {
-      inputText: { type: String }
-    };
-  }
-
   static get styles() {
     return css`
       .header-container {
