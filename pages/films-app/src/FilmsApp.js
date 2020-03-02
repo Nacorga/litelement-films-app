@@ -46,6 +46,10 @@ export class FilmsApp extends LitElement {
         align-items: center;
       }
 
+      .header-row .header-search h2{
+        margin-top: 0;
+      }
+
       .header-row .results-nav span {
         cursor: pointer;
         font-size: 32px;
@@ -53,22 +57,6 @@ export class FilmsApp extends LitElement {
 
       .header-row .results-nav span:not(:last-child) {
         margin-right: 15px;
-      }
-
-      .films-list {
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        list-style: none;
-        display: grid;
-        gap: 15px;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        box-sizing: border-box;
-      }
-
-      .films-list .film {
-        height: 240px;
-        background: red;
       }
     `;
   }
@@ -95,7 +83,7 @@ export class FilmsApp extends LitElement {
         ${this.totalResults ?
           html`
             <div class="header-row">
-              <div class="">
+              <div class="header-search">
                 <h2>Searching by: ${this.searchText}</h2>
                 <h3>Total results: ${this.totalResults}</h3>
               </div>
@@ -120,7 +108,7 @@ export class FilmsApp extends LitElement {
         }
 
         <div class="films-container">
-          ${filmsComp}
+          <films-comp .films=${this.films}></films-comp>
         </div>
 
       </main>
