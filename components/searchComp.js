@@ -7,7 +7,7 @@ export class searchComp extends LitElement {
       .header-container {
         display: flex;
         justify-content: center;
-        padding: 15px;
+        padding: 30px 0px;
       }
 
       .header-container input:focus,

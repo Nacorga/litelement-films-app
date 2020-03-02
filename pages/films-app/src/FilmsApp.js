@@ -1,12 +1,13 @@
 import { LitElement, html, css } from 'lit-element';
 import { searchComp } from '../../../components/searchComp.js';
 import { filmsComp } from '../../../components/filmsComp.js';
-
+import { spinnerComp } from '../../../components/spinnerComp.js';
 
 export class FilmsApp extends LitElement {
 
   static get properties() {
     return {
+      loading: { type: Boolean },
       searchText: { type: String },
       films: { type: Array },
       totalResults: { type: Number },
@@ -33,13 +34,6 @@ export class FilmsApp extends LitElement {
         background: transparent;
       }
 
-      main {
-        flex-grow: 1;
-        width: 100%;
-        padding: 15px;
-        box-sizing: border-box;
-      }
-
       .header-row {
         display: flex;
         justify-content: space-between;
@@ -58,6 +52,13 @@ export class FilmsApp extends LitElement {
       .header-row .results-nav span:not(:last-child) {
         margin-right: 15px;
       }
+
+      main {
+        flex-grow: 1;
+        width: 100%;
+        padding: 0 15px 30px 15px;
+        box-sizing: border-box;
+      }
     `;
   }
 
@@ -65,6 +66,7 @@ export class FilmsApp extends LitElement {
 
     super();
 
+    this.loading = false;
     this.searchText = null;
     this.films = [];
     this.totalResults = null;
@@ -90,12 +92,14 @@ export class FilmsApp extends LitElement {
               <div class="results-nav">
                 <span @click=${() => {
                   if (this.page > 1) {
+                    this.loading = true;
                     this.page--;
                     this.filmsApiCall();
                   }
                 }}>-</span>
                 <span @click=${() => {
                   if ( this.page < (this.totalResults / 10) ) {
+                    this.loading = true;
                     this.page++;
                     this.filmsApiCall();
                   }
@@ -107,9 +111,17 @@ export class FilmsApp extends LitElement {
           ''
         }
 
-        <div class="films-container">
-          <films-comp .films=${this.films}></films-comp>
-        </div>
+        ${this.loading ?
+          html`
+            <spinner-comp></spinner-comp>
+          `
+          :
+          html`
+            <div class="films-container">
+              <films-comp .films=${this.films}></films-comp>
+            </div>
+          `
+        }
 
       </main>
     `;
@@ -117,6 +129,7 @@ export class FilmsApp extends LitElement {
 
   searchFilm(e) {
 
+    this.loading = true;
     this.totalResults = null;
     this.searchText = e.detail.inputText;
     this.page = 1;
@@ -132,6 +145,7 @@ export class FilmsApp extends LitElement {
         .then(myJson => {
           this.films = myJson.Search;
           this.totalResults = myJson.totalResults;
+          this.loading = false;
         })
       );
 
