@@ -1,9 +1,12 @@
 import { LitElement, html, css } from 'lit-element';
+import { filmsComp } from '../../../components/filmsComp';
 
 export class MyFavorites extends LitElement {
 
   static get properties() {
-    return {};
+    return {
+      favorites: { type: Array }
+    };
   }
 
   static get styles() {
@@ -17,7 +20,11 @@ export class MyFavorites extends LitElement {
   }
 
   render() {
-    return html`HOLA`;
+    return html`
+      <div class="films-container">
+        <films-comp .films=${this.favorites} ></films-comp>
+      </div>
+    `;
   }
 
 }

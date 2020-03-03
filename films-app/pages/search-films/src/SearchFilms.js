@@ -93,7 +93,7 @@ export class SearchFilms extends LitElement {
         :
         html`
           <div class="films-container">
-            <films-comp .films=${this.films}></films-comp>
+            <films-comp .films=${this.films} ></films-comp>
           </div>
         `
       }

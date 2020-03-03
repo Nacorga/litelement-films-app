@@ -7,7 +7,8 @@ export class FilmsApp extends LitElement {
 
   static get properties() {
     return {
-      page: { type: String }
+      page: { type: String },
+      favorites: { type: Array }
     };
   }
 
@@ -59,6 +60,11 @@ export class FilmsApp extends LitElement {
     super();
 
     this.page = 'search';
+    this.favorites = JSON.parse(localStorage.getItem("films") || "[]");
+
+    document.addEventListener('save-favorite', (e) => {
+      this.saveAsFavorite(e.detail.film);
+    });
 
   }
 
@@ -87,7 +93,7 @@ export class FilmsApp extends LitElement {
         `;
       case 'favorites':
         return html`
-          <my-favorites></my-favorites>
+          <my-favorites .favorites=${this.favorites}></my-favorites>
         `;
       default:
         return html`
@@ -103,6 +109,11 @@ export class FilmsApp extends LitElement {
 
   __navClass(page) {
     return classMap({ active: this.page === page });
+  }
+
+  saveAsFavorite(film) {
+    this.favorites.push(film);
+    localStorage.setItem('films', JSON.stringify(this.favorites));
   }
 
 }

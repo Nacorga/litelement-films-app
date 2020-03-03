@@ -18,7 +18,7 @@ export class filmsComp extends LitElement {
         list-style: none;
         display: grid;
         gap: 15px;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        grid-template-columns: repeat(auto-fit, 160px);
         box-sizing: border-box;
       }
 
@@ -43,13 +43,25 @@ export class filmsComp extends LitElement {
         ${this.films.map(
           film =>
             html`
-              <li class="film-card">
+              <li class="film-card" @click=${() => this.saveAsFavorite(film)}>
                 <film-comp .film=${film}></film-comp>
               </li>
             `
         )}
       </ul>
     `;
+  }
+
+  saveAsFavorite(film) {
+    
+    const event = new CustomEvent('save-favorite', {
+      detail: {
+        film
+      }
+    });
+
+    document.dispatchEvent(event);
+
   }
 
 }
