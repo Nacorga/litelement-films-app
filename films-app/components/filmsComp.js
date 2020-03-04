@@ -40,28 +40,16 @@ export class filmsComp extends LitElement {
   render() {
     return html`
       <ul class="films-list">
-        ${this.films.map(
-          film =>
-            html`
-              <li class="film-card" @click=${() => this.saveAsFavorite(film)}>
-                <film-comp .film=${film}></film-comp>
-              </li>
-            `
-        )}
+        ${this.films.map(film => {
+
+          return html`
+            <li class="film-card">
+              <film-comp .film=${film}></film-comp>
+            </li>
+          `
+        })}
       </ul>
     `;
-  }
-
-  saveAsFavorite(film) {
-    
-    const event = new CustomEvent('save-favorite', {
-      detail: {
-        film
-      }
-    });
-
-    document.dispatchEvent(event);
-
   }
 
 }

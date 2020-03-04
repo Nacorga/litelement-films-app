@@ -60,10 +60,19 @@ export class FilmsApp extends LitElement {
     super();
 
     this.page = 'search';
+
     this.favorites = JSON.parse(localStorage.getItem("films") || "[]");
 
-    document.addEventListener('save-favorite', (e) => {
-      this.saveAsFavorite(e.detail.film);
+    document.addEventListener('favorites-change', (e) => {
+
+      if (e.detail.action === 'add') {
+        this.saveAsFavorite(e.detail.film);
+      }
+
+      if (e.detail.action === 'remove') {
+        this.removeFromFavorites(e.detail.film);
+      }
+
     });
 
   }
@@ -112,7 +121,14 @@ export class FilmsApp extends LitElement {
   }
 
   saveAsFavorite(film) {
+    film.isFav = true;
     this.favorites.push(film);
+    localStorage.setItem('films', JSON.stringify(this.favorites));
+  }
+
+  removeFromFavorites(film) {
+    const favIndex = this.favorites.map(fav => fav.imdbID).indexOf(film.imdbID);
+    this.favorites.splice(favIndex, 1);
     localStorage.setItem('films', JSON.stringify(this.favorites));
   }
 

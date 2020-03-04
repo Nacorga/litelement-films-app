@@ -11,7 +11,8 @@ export class SearchFilms extends LitElement {
       searchText: { type: String },
       films: { type: Array },
       totalResults: { type: Number },
-      page: { type: Number }
+      page: { type: Number },
+      favorites: { type: Array }
     };
   }
 
@@ -93,7 +94,7 @@ export class SearchFilms extends LitElement {
         :
         html`
           <div class="films-container">
-            <films-comp .films=${this.films} ></films-comp>
+            <films-comp .films=${this.films}></films-comp>
           </div>
         `
       }

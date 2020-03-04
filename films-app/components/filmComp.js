@@ -1,4 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
+import '@polymer/iron-icon/iron-icon.js';
+import '@polymer/iron-icons/iron-icons.js';
 
 export class filmComp extends LitElement {
 
@@ -11,10 +13,29 @@ export class filmComp extends LitElement {
   static get styles() {
     return css`
         .film-poster {
-            height: 240px;
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
+          position: relative;
+          height: 240px;
+          background-position: center;
+          background-size: cover;
+          background-repeat: no-repeat;
+        }
+
+        .film-poster::after {
+          content: '';
+          position: absolute;
+          top: 0; right: 0; bottom: 0; left: 0;
+          background: linear-gradient(to bottom, rgba(0,0,0,0.33) 0%,rgba(0,0,0,0) 25%);
+        }
+
+        .film-poster iron-icon {
+          cursor: pointer;
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          color: yellow;
+          width: 32px;
+          height: 32px;
+          z-index: 1;
         }
 
         .film-card-content {
@@ -42,12 +63,32 @@ export class filmComp extends LitElement {
 
   render() {
     return html`
-      <div class="film-poster" style="background-image: url('${this.film.Poster !== 'N/A' ? this.film.Poster : '../assets/img/img-placeholder.png'}')"></div>
+      <div class="film-poster" style="background-image: url('${this.film.Poster !== 'N/A' ? this.film.Poster : '../assets/img/img-placeholder.png'}')">
+        
+        <iron-icon
+          icon=${this.film.isFav ? "star" : "star-border"}
+          @click=${() => this.favoritesChange(this.film.isFav ? 'remove' : 'add')}>
+        </iron-icon>
+
+      </div>
       <div class="film-card-content">
         <h4>${this.film.Year}</h4>
         <h5>${this.film.Title}</h5>
       </div>
     `;
+  }
+
+  favoritesChange(action) {
+    
+    const event = new CustomEvent('favorites-change', {
+      detail: {
+        action,
+        film: this.film
+      }
+    });
+
+    document.dispatchEvent(event);
+
   }
 
 }

@@ -22,7 +22,7 @@ export class MyFavorites extends LitElement {
   render() {
     return html`
       <div class="films-container">
-        <films-comp .films=${this.favorites} ></films-comp>
+        <films-comp .films=${this.favorites}></films-comp>
       </div>
     `;
   }
