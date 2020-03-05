@@ -1,13 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
 import { filmsComp } from '../../../components/filmsComp';
+import { store } from '../../../redux/store';
 
 export class MyFavorites extends LitElement {
-
-  static get properties() {
-    return {
-      favorites: { type: Array }
-    };
-  }
 
   static get styles() {
     return css``;
@@ -22,7 +17,7 @@ export class MyFavorites extends LitElement {
   render() {
     return html`
       <div class="films-container">
-        <films-comp .films=${this.favorites}></films-comp>
+        <films-comp .films=${store.getState().favs}></films-comp>
       </div>
     `;
   }

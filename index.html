@@ -25,7 +25,13 @@
 <body>
   
   <films-app></films-app>
+
   <script type="module" src="./films-app/films-app.js"></script>
+
+  <script>
+    window.process = { env: { NODE_ENV: 'production' } };
+  </script>
+
 </body>
 
 </html>

@@ -1,7 +1,11 @@
 import { LitElement, html, css } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map.js';
+
 import '../pages/search-films/search-films.js';
 import '../pages/my-favorites/my-favorites.js';
+
+import { store } from '../redux/store';
+import { addFavFilm, removeFavFilm } from '../redux/actions';
 
 export class FilmsApp extends LitElement {
 
@@ -73,6 +77,8 @@ export class FilmsApp extends LitElement {
         this.removeFromFavorites(e.detail.film);
       }
 
+      this.saveFavsInLocalStorage();
+
     });
 
   }
@@ -121,15 +127,15 @@ export class FilmsApp extends LitElement {
   }
 
   saveAsFavorite(film) {
-    film.isFav = true;
-    this.favorites.push(film);
-    localStorage.setItem('films', JSON.stringify(this.favorites));
+    store.dispatch(addFavFilm(film));
   }
 
   removeFromFavorites(film) {
-    const favIndex = this.favorites.map(fav => fav.imdbID).indexOf(film.imdbID);
-    this.favorites.splice(favIndex, 1);
-    localStorage.setItem('films', JSON.stringify(this.favorites));
+    store.dispatch(removeFavFilm(film));
+  }
+
+  saveFavsInLocalStorage() {
+    localStorage.setItem('films', JSON.stringify(store.getState().favs));
   }
 
 }

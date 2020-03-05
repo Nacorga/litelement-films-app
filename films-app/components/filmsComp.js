@@ -1,11 +1,15 @@
 import { LitElement, html, css } from 'lit-element';
 import { filmComp } from './filmComp';
 
-export class filmsComp extends LitElement {
+import { connect } from 'pwa-helpers';
+import { store } from '../redux/store';
+
+export class filmsComp extends connect(store)(LitElement) {
 
   static get properties() {
     return {
-      films: { type: Array }
+      films: { type: Array },
+      favorites: { type: Array }
     };
   }
 
@@ -18,7 +22,7 @@ export class filmsComp extends LitElement {
         list-style: none;
         display: grid;
         gap: 15px;
-        grid-template-columns: repeat(auto-fit, 160px);
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         box-sizing: border-box;
       }
 
@@ -35,12 +39,18 @@ export class filmsComp extends LitElement {
 
     super();
 
+    this.favorites = store.getState().favs;
+
   }
 
   render() {
     return html`
       <ul class="films-list">
         ${this.films.map(film => {
+
+          if ( this.favorites.map(fav => fav.imdbID).indexOf(film.imdbID) !== -1 ) {
+            film.isFav = true;
+          }
 
           return html`
             <li class="film-card">
@@ -50,6 +60,10 @@ export class filmsComp extends LitElement {
         })}
       </ul>
     `;
+  }
+
+  stateChanged(state) {
+    this.favorites = state.favs;
   }
 
 }
