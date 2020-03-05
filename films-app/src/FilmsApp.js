@@ -65,7 +65,7 @@ export class FilmsApp extends LitElement {
 
     this.page = 'search';
 
-    this.favorites = JSON.parse(localStorage.getItem("films") || "[]");
+    this.setFavoritesFromState();
 
     document.addEventListener('favorites-change', (e) => {
 
@@ -76,6 +76,8 @@ export class FilmsApp extends LitElement {
       if (e.detail.action === 'remove') {
         this.removeFromFavorites(e.detail.film);
       }
+
+      this.setFavoritesFromState();
 
       this.saveFavsInLocalStorage();
 
@@ -132,6 +134,10 @@ export class FilmsApp extends LitElement {
 
   removeFromFavorites(film) {
     store.dispatch(removeFavFilm(film));
+  }
+
+  setFavoritesFromState() {
+    this.favorites = store.getState().favs;
   }
 
   saveFavsInLocalStorage() {
