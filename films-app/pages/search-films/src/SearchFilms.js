@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit-element';
 import { searchComp } from '../../../components/searchComp.js';
 import { filmsComp } from '../../../components/filmsComp.js';
 import { spinnerComp } from '../../../components/spinnerComp.js';
+import { store } from '../../../redux/store';
 
 export class SearchFilms extends LitElement {
 
@@ -94,7 +95,7 @@ export class SearchFilms extends LitElement {
         :
         html`
           <div class="films-container">
-            <films-comp .films=${this.films}></films-comp>
+            <films-comp .films=${this.films} .favorites=${store.getState().favs}></films-comp>
           </div>
         `
       }

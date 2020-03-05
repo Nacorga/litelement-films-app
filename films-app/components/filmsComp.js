@@ -1,10 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 import { filmComp } from './filmComp';
 
-import { connect } from 'pwa-helpers';
-import { store } from '../redux/store';
-
-export class filmsComp extends connect(store)(LitElement) {
+export class filmsComp extends LitElement {
 
   static get properties() {
     return {
@@ -39,8 +36,6 @@ export class filmsComp extends connect(store)(LitElement) {
 
     super();
 
-    this.favorites = store.getState().favs;
-
   }
 
   render() {
@@ -60,10 +55,6 @@ export class filmsComp extends connect(store)(LitElement) {
         })}
       </ul>
     `;
-  }
-
-  stateChanged(state) {
-    this.favorites = state.favs;
   }
 
 }

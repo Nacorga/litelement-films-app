@@ -17,7 +17,7 @@ export class MyFavorites extends LitElement {
   render() {
     return html`
       <div class="films-container">
-        <films-comp .films=${store.getState().favs}></films-comp>
+        <films-comp .films=${store.getState().favs} .favorites=${store.getState().favs}></films-comp>
       </div>
     `;
   }
