@@ -36,6 +36,9 @@ export class filmsComp extends LitElement {
 
     super();
 
+    this.films = this.films || [];
+    this.favorites = this.favorites || [];
+
   }
 
   render() {
@@ -43,9 +46,7 @@ export class filmsComp extends LitElement {
       <ul class="films-list">
         ${this.films.map(film => {
 
-          if ( this.favorites.map(fav => fav.imdbID).indexOf(film.imdbID) !== -1 ) {
-            film.isFav = true;
-          }
+          this.checkFilm(film);
 
           return html`
             <li class="film-card">
@@ -55,6 +56,12 @@ export class filmsComp extends LitElement {
         })}
       </ul>
     `;
+  }
+
+  checkFilm(film) {
+    if ( this.favorites.map(fav => fav.imdbID).indexOf(film.imdbID) !== -1 ) {
+      film.isFav = true;
+    }
   }
 
 }

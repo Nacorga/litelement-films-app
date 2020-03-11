@@ -48,10 +48,14 @@ export class searchComp extends LitElement {
   render() {
     return html`
       <div class="header-container">
-        <input placeholder="Search a film..." @keyup=${e => this.inputText = e.target.value}>
+        <input placeholder="Search a film..." @keyup=${e => this.setInputText(e.target.value)}>
         <button @click=${this.searchFilms}>Search</button>
       </div>
     `;
+  }
+
+  setInputText(value) {
+    this.inputText = value
   }
 
   searchFilms() {
