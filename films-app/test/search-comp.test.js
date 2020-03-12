@@ -29,4 +29,44 @@ describe('Search component', () => {
 
   });
 
+  it('should search films on button click', async () => {
+
+    const el = await fixture(html`
+      <search-comp></search-comp>
+    `);
+
+    const mock = stub(el, 'searchFilms');
+    el.shadowRoot.querySelector('button').click();
+
+    expect(mock).to.have.callCount(1);
+
+  });
+
+  it('should dispatch an event on button click', async () => {
+
+    const el = await fixture(html`
+      <search-comp></search-comp>
+    `);
+
+    const event = new CustomEvent('search-films');
+
+    const mock = stub(el, 'dispatchEvent');
+    el.shadowRoot.querySelector('button').click();
+
+    expect(mock).to.have.callCount(1);
+
+  });
+
+  it('set inputText var equal to input text value', async () => {
+
+    const el = await fixture(html`
+      <search-comp></search-comp>
+    `);
+
+    el.setInputText('test')
+
+    expect(el.inputText).to.be.equal('test');
+
+  });
+
 });

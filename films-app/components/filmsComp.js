@@ -46,7 +46,7 @@ export class filmsComp extends LitElement {
       <ul class="films-list">
         ${this.films.map(film => {
 
-          this.checkFilm(film);
+          film.isFav = this.checkFilm(film);
 
           return html`
             <li class="film-card">
@@ -60,7 +60,7 @@ export class filmsComp extends LitElement {
 
   checkFilm(film) {
     if ( this.favorites.map(fav => fav.imdbID).indexOf(film.imdbID) !== -1 ) {
-      film.isFav = true;
+      return true;
     }
   }
 

@@ -1,26 +1,21 @@
 import { html, fixture, expect } from '@open-wc/testing';
 
 import '../components/filmsComp';
-import '../components/filmComp';
 
-const testFilms = [
+const favFilms = [
     {
-        Title: "The Incredible Hulk",
-        Year: "2008",
-        imdbID: "tt0800080",
-        Type: "movie",
-        Poster: "https://m.media-amazon.com/images/M/MV5BMTUyNzk3MjA1OF5BMl5BanBnXkFtZTcwMTE1Njg2MQ@@._V1_SX300.jpg"
+        imdbID: "abc001",
     },
     {
-        Title: "Test film",
-        Year: "2008",
-        imdbID: "tt0800082",
-        Type: "movie",
-        Poster: "N/A"
+        imdbID: "abc002",
     }
-];
+]
 
-describe('filmsComp', () => {
+const film = {
+    imdbID: "abc001",
+};
+
+describe('Films component', () => {
   
     it('films prop is an array', async () => {
 
@@ -49,6 +44,18 @@ describe('filmsComp', () => {
         `);
 
         expect(el.shadowRoot.querySelectorAll('film-card').length).to.equal(el.films.length);
+
+    });
+
+    it('check if film is favorite', async () => {
+
+        const el = await fixture(html`
+            <films-comp .favorites=${favFilms}></films-comp>
+        `);
+
+        el.checkFilm(film);
+
+        expect(el.checkFilm(film)).to.be.equal(true);
 
     });
 

@@ -64,7 +64,7 @@ export class filmComp extends LitElement {
   render() {
 
     return html`
-      <div class="film-poster" style="background-image: url('${this.film.Poster !== 'N/A' ? this.film.Poster : '../assets/img/img-placeholder.png'}')">
+      <div class="film-poster" style="background-image: url('${() => this.checkImage(this.film)}')">
         <iron-icon
           icon=${this.film.isFav ? "star" : "star-border"}
           @click=${() => this.favoritesChange(this.film.isFav ? 'remove' : 'add')}>
@@ -77,6 +77,10 @@ export class filmComp extends LitElement {
     `;
   }
 
+  checkImage(film) {
+    return film.Poster !== 'N/A' ? film.Poster : '../assets/img/img-placeholder.png';
+  }
+
   favoritesChange(action) {
 
     if (action === 'add') {
@@ -86,6 +90,12 @@ export class filmComp extends LitElement {
     if (action === 'remove') {
       this.film = {...this.film, isFav: false};
     }
+
+    this.sendEvent(action);
+
+  }
+
+  sendEvent(action) {
 
     const event = new CustomEvent('favorites-change', {
       detail: {
