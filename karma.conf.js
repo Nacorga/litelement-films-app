@@ -11,6 +11,7 @@ module.exports = config => {
         //
         // npm run test -- --grep test/foo/bar.test.js
         // npm run test -- --grep test/bar/*
+        './global-variables.js',
         { pattern: config.grep ? config.grep : 'films-app/test/*.test.js', type: 'module' },
       ],
 

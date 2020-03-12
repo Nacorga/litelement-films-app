@@ -57,7 +57,7 @@ export class SearchFilms extends LitElement {
   render() {
     return html`
 
-      <search-comp @search-films="${this.searchFilm}"></search-comp>
+      <search-comp @search-films="${(e) => this.searchFilm(e.detail.inputText)}"></search-comp>
 
       ${this.totalResults ?
         html`
@@ -67,20 +67,8 @@ export class SearchFilms extends LitElement {
               <h3>Total results: ${this.totalResults}</h3>
             </div>
             <div class="results-nav">
-              <span @click=${() => {
-                if (this.page > 1) {
-                  this.loading = true;
-                  this.page--;
-                  this.filmsApiCall();
-                }
-              }}>-</span>
-              <span @click=${() => {
-                if ( this.page < (this.totalResults / 10) ) {
-                  this.loading = true;
-                  this.page++;
-                  this.filmsApiCall();
-                }
-              }}>+</span>
+              <span @click=${() => this.goToPrevPage(this.page)}>-</span>
+              <span @click=${() => this.goToNextPage(this.page)}>+</span>
             </div>
           </div>
         `
@@ -103,11 +91,11 @@ export class SearchFilms extends LitElement {
     `;
   }
 
-  searchFilm(e) {
+  searchFilm(text) {
 
     this.loading = true;
     this.totalResults = null;
-    this.searchText = e.detail.inputText;
+    this.searchText = text;
     this.page = 1;
 
     this.filmsApiCall();
@@ -124,6 +112,26 @@ export class SearchFilms extends LitElement {
           this.loading = false;
         })
       );
+
+  }
+
+  goToPrevPage(page) {
+
+    if (page > 1) {
+      this.loading = true;
+      this.page = --page;
+      this.filmsApiCall();
+    }
+
+  }
+
+  goToNextPage(page) {
+
+    if ( page < (this.totalResults / 10) ) {
+      this.loading = true;
+      this.page = ++page;
+      this.filmsApiCall();
+    }
 
   }
 

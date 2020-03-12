@@ -9,7 +9,7 @@ const favFilms = [
     {
         imdbID: "abc002",
     }
-]
+];
 
 const film = {
     imdbID: "abc001",
