@@ -69,17 +69,7 @@ export class FilmsApp extends LitElement {
 
     document.addEventListener('favorites-change', (e) => {
 
-      if (e.detail.action === 'add') {
-        this.saveAsFavorite(e.detail.film);
-      }
-
-      if (e.detail.action === 'remove') {
-        this.removeFromFavorites(e.detail.film);
-      }
-
-      this.setFavoritesFromState();
-
-      this.saveFavsInLocalStorage();
+      this.favoritesChange(e.detail.action, e.detail.film);
 
     });
 
@@ -90,8 +80,8 @@ export class FilmsApp extends LitElement {
 
       <header>
         <nav>
-          <a class=${this.__navClass('search')} href="#search" @click=${this.__onNavClicked}>Search films</a>
-          <a class=${this.__navClass('favorites')} href="#favorites" @click=${this.__onNavClicked}>My favorites</a>
+          <a class=${this.__navClass('search')} href="#search" @click=${() => this.__onNavClicked('search')}>Search films</a>
+          <a class=${this.__navClass('favorites')} href="#favorites" @click=${() => this.__onNavClicked('favorites')}>My favorites</a>
         </nav>
       </header>
 
@@ -119,13 +109,28 @@ export class FilmsApp extends LitElement {
     }
   }
 
-  __onNavClicked(ev) {
-    ev.preventDefault();
-    this.page = ev.target.hash.substring(1);
+  __onNavClicked(page) {
+    this.page = page;
   }
 
   __navClass(page) {
     return classMap({ active: this.page === page });
+  }
+
+  favoritesChange(action, film) {
+
+    if (action === 'add') {
+      this.saveAsFavorite(film);
+    }
+
+    if (action === 'remove') {
+      this.removeFromFavorites(film);
+    }
+
+    this.setFavoritesFromState();
+
+    this.saveFavsInLocalStorage();
+
   }
 
   saveAsFavorite(film) {
