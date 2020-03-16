@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 import { filmsComp } from '../../../components/filmsComp';
 
 export class MyFavorites extends LitElement {
@@ -8,16 +8,6 @@ export class MyFavorites extends LitElement {
       page: { type: String },
       favorites: { type: Array }
     };
-  }
-
-  static get styles() {
-    return css``;
-  }
-
-  constructor() {
-
-    super();
-
   }
 
   render() {
