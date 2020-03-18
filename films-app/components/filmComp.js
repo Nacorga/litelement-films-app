@@ -63,8 +63,10 @@ export class filmComp extends LitElement {
 
   render() {
 
+    const img = this.checkImage(this.film);
+
     return html`
-      <div class="film-poster" style="background-image: url('${() => this.checkImage(this.film)}')">
+      <div class="film-poster" style="background-image: url('${img}')">
         <iron-icon
           icon=${this.film.isFav ? "star" : "star-border"}
           @click=${() => this.favoritesChange(this.film.isFav ? 'remove' : 'add')}>
